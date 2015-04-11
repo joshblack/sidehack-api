@@ -24,4 +24,66 @@ describe('GET /api/v1', () => {
         done();
       })
   });
+
+  it('should catch nonexistent GET requests', (done) => {
+    fetch.get('/api/v1/this/does/not/exist')
+      .expect(404)
+      .expect({
+        status: 404,
+        message: 'GET request for this route is not supported'
+      })
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should catch nonexistent POST requests', (done) => {
+    fetch.post('/api/v1/this/does/not/exist')
+      .expect(404)
+      .expect({
+        status: 404,
+        message: 'POST request for this route is not supported'
+      })
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should catch nonexistent PUT requests', (done) => {
+    fetch.put('/api/v1/this/does/not/exist')
+      .expect({
+        status: 404,
+        message: 'PUT request for this route is not supported'
+      })
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should catch nonexistent PATCH requests', (done) => {
+    fetch.patch('/api/v1/this/does/not/exist')
+      .expect({
+        status: 404,
+        message: 'PATCH request for this route is not supported'
+      })
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should catch nonexistent DELETE requests', (done) => {
+    fetch.delete('/api/v1/this/does/not/exist')
+      .expect({
+        status: 404,
+        message: 'DELETE request for this route is not supported'
+      })
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
 });
