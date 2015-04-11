@@ -1,11 +1,11 @@
 import expect from 'expect.js';
 import request from 'supertest';
 
-const fetch = request('http://localhost:8000');
+const API = request('http://localhost:8000/api/v1');
 
-describe('GET /api/v1', () => {
+describe('GET /', () => {
   it('should return a valid status code', (done) => {
-    fetch.get('/api/v1')
+    API.get('/')
       .expect(200)
       .end((err) => {
         if (err) return done(err);
@@ -14,7 +14,7 @@ describe('GET /api/v1', () => {
   });
 
   it('should return information about the current API version', (done) => {
-    fetch.get('/api/v1')
+    API.get('/')
       .expect({
         version: 'v1',
         description: 'Sidehack API Version 1.0'
@@ -26,7 +26,7 @@ describe('GET /api/v1', () => {
   });
 
   it('should catch nonexistent GET requests', (done) => {
-    fetch.get('/api/v1/this/does/not/exist')
+    API.get('/this/does/not/exist')
       .expect(404)
       .expect({
         status: 404,
@@ -39,7 +39,7 @@ describe('GET /api/v1', () => {
   });
 
   it('should catch nonexistent POST requests', (done) => {
-    fetch.post('/api/v1/this/does/not/exist')
+    API.post('/this/does/not/exist')
       .expect(404)
       .expect({
         status: 404,
@@ -52,7 +52,7 @@ describe('GET /api/v1', () => {
   });
 
   it('should catch nonexistent PUT requests', (done) => {
-    fetch.put('/api/v1/this/does/not/exist')
+    API.put('/this/does/not/exist')
       .expect({
         status: 404,
         message: 'PUT request for this route is not supported'
@@ -64,7 +64,7 @@ describe('GET /api/v1', () => {
   });
 
   it('should catch nonexistent PATCH requests', (done) => {
-    fetch.patch('/api/v1/this/does/not/exist')
+    API.patch('/this/does/not/exist')
       .expect({
         status: 404,
         message: 'PATCH request for this route is not supported'
@@ -76,7 +76,7 @@ describe('GET /api/v1', () => {
   });
 
   it('should catch nonexistent DELETE requests', (done) => {
-    fetch.delete('/api/v1/this/does/not/exist')
+    API.delete('/this/does/not/exist')
       .expect({
         status: 404,
         message: 'DELETE request for this route is not supported'

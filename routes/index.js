@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
     version: 'v1',
     description: 'Sidehack API Version 1.0'
   });
-  res.end();
 });
 
 router.get('*', (req, res) => {
@@ -20,7 +19,6 @@ router.get('*', (req, res) => {
     status: 404,
     message: 'GET request for this route is not supported'
   });
-  res.end();
 });
 
 router.post('*', (req, res) => {
@@ -29,7 +27,6 @@ router.post('*', (req, res) => {
     status: 404,
     message: 'POST request for this route is not supported'
   });
-  res.end();
 });
 
 router.put('*', (req, res) => {
@@ -38,7 +35,6 @@ router.put('*', (req, res) => {
     status: 404,
     message: 'PUT request for this route is not supported'
   });
-  res.end();
 });
 
 router.patch('*', (req, res) => {
@@ -47,7 +43,6 @@ router.patch('*', (req, res) => {
     status: 404,
     message: 'PATCH request for this route is not supported'
   });
-  res.end();
 });
 
 router.delete('*', (req, res) => {
@@ -56,7 +51,6 @@ router.delete('*', (req, res) => {
     status: 404,
     message: 'DELETE request for this route is not supported'
   });
-  res.end();
 });
 
 router.all('*', (req, res) => {
@@ -65,7 +59,6 @@ router.all('*', (req, res) => {
     status: 404,
     message: 'The request made for this route is not supported'
   });
-  res.end();
-})
+});
 
 export default router;
