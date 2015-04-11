@@ -17,10 +17,14 @@
     "sails-mysql": "^0.10.11",
     "waterline": "^0.10.20"
   },
-  "devDependencies": {},
-  "scripts": {
-    "start": "nodemon index.js"
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.2.4",
+    "supertest": "^0.15.0"
   },
-  "author": "Josh Black <joshuatblack@ufl.edu>",
-  "license": "ISC"
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "mocha --compilers js:babel/register"
+  },
+  "author": "Josh Black <joshuatblack@ufl.edu>"
 }

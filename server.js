@@ -94,13 +94,12 @@ app.get(
     res.cookie('token', token, { httpOnly: true });
 
     // Successful authentication, redirect home.
-    res.redirect(process.env.CLIENT_URL);
+    res.redirect(process.env.CLIENT_DASHBOARD_URL + req.user.id);
   }
 );
 
-app.get('/api/v1/user', function (req, res) {
-  res.status(200).json({ msg: 'requested', user: req.user });
-});
+import router from './routes';
+app.use('/api/v1', router);
 
 app.get('*', (req, res) => {
   res.status(404).json({ status: '404', message: 'Route not found' });
