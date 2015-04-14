@@ -113,82 +113,6 @@ describe('POST /api/v1/users', () => {
   });
 });
 
-describe('PUT /api/v1/users/:id', () => {
-  before((done) => API.post('/api/v1/users').send(randomUser()).end(done));
-  after((done) => API.delete('/api/v1/users/4').end(done));
-
-  it('should update a user record', (done) => {
-    API.put('/api/v1/users/4')
-      .send(randomUser())
-      .end((err, res) => {
-        should.not.exist(err);
-        res.should.have.property('status', 200);
-
-        const { id, message } = res.body;
-
-        message.should.be.an.instanceOf(String);
-        message.should.be.exactly('User succesfully updated.');
-        done();
-      });
-  });
-
-  it('should suggest to use PATCH if only one property is included', (done) => {
-    API.put('/api/v1/users/4')
-      .send({ name: 'Josh Black' })
-      .end((err, res) => {
-        should.not.exist(err);
-        res.should.have.property('status', 500);
-
-        const { message } = res.body;
-
-        message.should.be.an.instanceOf(String);
-        message.should.be.exactly(
-          'Only one property is being updated, please use PATCH instead'
-        );
-        done();
-      })
-  });
-});
-
-describe('DELETE /api/v1/users/:id', () => {
-  before((done) => {
-    API.post('/api/v1/users')
-      .send(randomUser())
-      .end((err) => {
-        if (err) return done(err);
-        done();
-      });
-  });
-
-  it('should delete the user from the database', (done) => {
-    API.delete('/api/v1/users/4')
-      .end((err, res) => {
-        should.not.exist(err);
-        res.should.have.property('status', 200);
-
-        const { message } = res.body;
-        message.should.be.exactly('User resource succesfully deleted.');
-
-        done();
-      });
-  });
-});
-
-describe('GET /api/v1/users/info', () => {
-  it('should provide information about the endpoint', (done) => {
-    API.get('/api/v1/users/info')
-      .expect(200)
-      .expect({
-        status: 200,
-        message: 'User endpoint for the Sidehack API'
-      })
-      .end((err, res) => {
-        if (err) return done(err);
-        done();
-      });
-  });
-});
-
 describe('GET /api/v1/users/:id', () => {
   it('should return a user', (done) => {
     API.get('/api/v1/users/1')
@@ -216,6 +140,50 @@ describe('GET /api/v1/users/:id', () => {
         done();
       });
   })
+});
+
+describe('PUT /api/v1/users/:id', () => {
+  before((done) => API.post('/api/v1/users').send(randomUser()).end(done));
+  after((done) => API.delete('/api/v1/users/4').end(done));
+
+  it('should update a user record', (done) => {
+    API.put('/api/v1/users/4')
+      .send(randomUser())
+      .end((err, res) => {
+        should.not.exist(err);
+        res.should.have.property('status', 200);
+
+        const { id, message } = res.body;
+
+        message.should.be.an.instanceOf(String);
+        message.should.be.exactly('User succesfully updated.');
+        done();
+      });
+  });
+});
+
+describe('DELETE /api/v1/users/:id', () => {
+  before((done) => {
+    API.post('/api/v1/users')
+      .send(randomUser())
+      .end((err) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  it('should delete the user from the database', (done) => {
+    API.delete('/api/v1/users/4')
+      .end((err, res) => {
+        should.not.exist(err);
+        res.should.have.property('status', 200);
+
+        const { message } = res.body;
+        message.should.be.exactly('User resource succesfully deleted.');
+
+        done();
+      });
+  });
 });
 
 describe('GET /api/v1/users/:id/picture', () => {

@@ -50,26 +50,32 @@ router.post('/', (req, res) => {
     }));
 });
 
+router.get('/:id', (req, res) => {
+  const { user: User } = req.app.models;
+
+  User.findOne({ id: req.params.id })
+    .then((user) => sendResponse(res, 200, { user: removePrivateFields(user) }))
+    .catch((err) => {
+      sendResponse(res, 400, {
+        message: 'Unsupported request for the given user. Either a user does'
+          + ' not exist with the given id or another error occured.'
+      });
+    });
+});
+
 router.put('/:id', (req, res) => {
   const { user: User } = req.app.models;
 
-  if (Object.keys(req.body).length === 1) {
-    sendResponse(res, 500, {
-      message: 'Only one property is being updated, please use PATCH instead'
-    });
-  }
-  else {
-    User.update({ id: req.params.id }, req.body)
-      .then((user) => {
-        sendResponse(res, 200, {
-          id: user.id,
-          message: 'User succesfully updated.'
-        })
+  User.update({ id: req.params.id }, req.body)
+    .then((user) => {
+      sendResponse(res, 200, {
+        id: user.id,
+        message: 'User succesfully updated.'
       })
-      .catch((err) => sendResponse(res, 500, {
-        message: 'Server could not update user. Check to make sure the user exists.'
-      }));
-  }
+    })
+    .catch((err) => sendResponse(res, 500, {
+      message: 'Server could not update user. Check to make sure the user exists.'
+    }));
 });
 
 router.delete('/:id', (req, res) => {
@@ -82,24 +88,6 @@ router.delete('/:id', (req, res) => {
     }));
 });
 
-router.get('/info', (req, res) => {
-  sendResponse(res, 200, { message: 'User endpoint for the Sidehack API' });
-});
-
-router.get('/:id', (req, res) => {
-  const { user: User } = req.app.models;
-
-  User.findOne({ id: req.params.id })
-    .then((user) => sendResponse(res, 200, { user: removePrivateFields(user) }))
-    .catch((err) => {
-      sendResponse(res, 400, {
-        message: 'Unsupported request for the given user. Either a user does'
-          + ' not exist with the given id or another error occured.'
-      });
-    });
-})
-
-// Returns the avatar of the user
 router.get('/:id/picture', (req, res) => {
   const { user: User } = req.app.models;
 
