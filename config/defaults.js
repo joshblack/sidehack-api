@@ -1,1 +1,1 @@
-export default { migrate: 'alter' };
+export default { migrate: 'drop' };

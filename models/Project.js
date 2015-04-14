@@ -7,14 +7,14 @@ export default Waterline.Collection.extend({
    *
    * @type {String}
    */
-  identity: 'token',
+  identity: 'project',
 
   /**
    * The table name for this model
    *
    * @type {String}
    */
-  tableName: 'tokens',
+  tableName: 'projects',
 
   /**
    * A named connection which will be used to read/write to
@@ -31,21 +31,42 @@ export default Waterline.Collection.extend({
   attributes: {
 
     /**
-     * A valid access token for retrieving Data from GitHub for a User
+     * The name of the project
      *
      * @type {Object}
      */
-    value: {
+    name: {
       type: 'string',
+      required: true
     },
 
     /**
-     * One-to-one model association between a Token and a User
+     * The project description
      *
      * @type {Object}
      */
-    user: {
-      model: 'user'
+    description: {
+      type: 'text',
+      required: true
+    },
+
+    /**
+     * The avatar url for the project
+     *
+     * @type {Object}
+     */
+    avatar_url: {
+      type: 'string'
+    },
+
+    /**
+     * One-to-many association between a Project and Users
+     *
+     * @type {Object}
+     */
+    members: {
+      collection: 'user',
+      via: 'projects'
     }
   }
 

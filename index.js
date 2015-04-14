@@ -1,3 +1,25 @@
 require('dotenv').load();
 require('babel/register');
-require('./server');
+var app = require('./server');
+
+// Database Configuration
+var Waterline = require('waterline');
+var User = require('./models/User');
+var Token = require('./models/Token');
+var Project = require('./models/Project');
+var config = require('./config');
+
+var ORM = new Waterline();
+ORM.loadCollection(User);
+ORM.loadCollection(Token);
+ORM.loadCollection(Project);
+
+ORM.initialize(config, function (err, models) {
+  if (err) throw err;
+
+  app.models = models.collections;
+  app.connections = models.connections;
+
+  app.listen(8000);
+  console.log('Server is listening on http://localhost:8000');
+});

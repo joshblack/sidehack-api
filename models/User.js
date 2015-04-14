@@ -46,7 +46,7 @@ export default Waterline.Collection.extend({
      * @type {Object}
      */
     bio: {
-      type: 'string'
+      type: 'text'
     },
 
     /**
@@ -75,8 +75,7 @@ export default Waterline.Collection.extend({
      */
     provider_id: {
       type: 'integer',
-      required: true,
-      unique: true
+      required: true
     },
 
     /**
@@ -86,8 +85,7 @@ export default Waterline.Collection.extend({
      */
     avatar_url: {
       type: 'string',
-      required: true,
-      unique: true
+      required: true
     },
 
     /**
@@ -141,10 +139,22 @@ export default Waterline.Collection.extend({
 
     /**
      * One-to-one model association between a User and a Token
+     *
      * @type {Object}
      */
     token: {
       model: 'token'
+    },
+
+    /**
+     * One-to-many model association between a Project and Users
+     *
+     * @type {Object}
+     */
+    projects: {
+      collection: 'project',
+      via: 'members',
+      dominant: true
     }
   }
 

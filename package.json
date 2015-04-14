@@ -19,7 +19,9 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
+    "faker": "^2.1.2",
     "mocha": "^2.2.4",
+    "nock": "^1.6.0",
     "supertest": "^0.15.0"
   },
   "scripts": {

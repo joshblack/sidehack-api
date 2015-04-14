@@ -1,3 +1,4 @@
+require('dotenv').load();
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import jwt from 'jwt-simple';
@@ -17,7 +18,7 @@ app.use(cookieParser());
 
 app.all('/api/*', auth);
 
-passport.serializeUser((user, done) => done(null, user));
+passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((obj, done) => done(null, obj));
 
 passport.use(
@@ -105,22 +106,4 @@ app.get('*', (req, res) => {
   res.status(404).json({ status: '404', message: 'Route not found' });
 })
 
-// Database Configuration
-import Waterline from 'waterline';
-import User from './models/User';
-import Token from './models/Token';
-import config from './config';
-
-const ORM = new Waterline();
-ORM.loadCollection(User);
-ORM.loadCollection(Token);
-
-ORM.initialize(config, (err, models) => {
-  if (err) throw err;
-
-  app.models = models.collections;
-  app.connections = models.connections;
-
-  app.listen(8000);
-  console.log('Server is listening on http://localhost:8000');
-});
+export default app;
