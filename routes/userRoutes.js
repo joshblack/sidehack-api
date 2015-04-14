@@ -38,6 +38,50 @@ router.get('/', (req, res) => {
     });
 });
 
+router.post('/', (req, res) => {
+  const { user: User } = req.app.models;
+
+  User.findOrCreate(req.body)
+    .then((user) => {
+      sendResponse(res, 200, { id: user.id, message: 'New User succesfully created.' });
+    })
+    .catch((err) => sendResponse(res, 500, {
+      message: 'Server could not create user. Check the JSON payload that you submitted'
+    }));
+});
+
+router.put('/:id', (req, res) => {
+  const { user: User } = req.app.models;
+
+  if (Object.keys(req.body).length === 1) {
+    sendResponse(res, 500, {
+      message: 'Only one property is being updated, please use PATCH instead'
+    });
+  }
+  else {
+    User.update({ id: req.params.id }, req.body)
+      .then((user) => {
+        sendResponse(res, 200, {
+          id: user.id,
+          message: 'User succesfully updated.'
+        })
+      })
+      .catch((err) => sendResponse(res, 500, {
+        message: 'Server could not update user. Check to make sure the user exists.'
+      }));
+  }
+});
+
+router.delete('/:id', (req, res) => {
+  const { user: User } = req.app.models;
+
+  User.destroy({ id: req.params.id })
+    .then(() => sendResponse(res, 200, { message: 'User resource succesfully deleted.' }))
+    .catch((err) => sendResponse(res, 500, {
+      message: 'Error deleting the requested resource. Make sure the user exists'
+    }));
+});
+
 router.get('/info', (req, res) => {
   sendResponse(res, 200, { message: 'User endpoint for the Sidehack API' });
 });
