@@ -75,7 +75,8 @@ export default Waterline.Collection.extend({
      */
     provider_id: {
       type: 'integer',
-      required: true
+      required: true,
+      unique: true
     },
 
     /**

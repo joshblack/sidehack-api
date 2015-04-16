@@ -1,9 +1,17 @@
 import { Router } from 'express';
-import userRoutes from './userRoutes';
+import users from './users';
+import projects from './projects';
 
 const router = Router();
 
-router.use('/users', userRoutes);
+router.use('/users', users);
+router.use('/projects', projects);
+
+router.get('/me', (req, res) => {
+  res.status(200).json({
+    'user': req.user
+  });
+});
 
 router.get('/', (req, res) => {
   res.status(200);

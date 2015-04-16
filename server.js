@@ -1,6 +1,7 @@
 require('dotenv').load();
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
 import jwt from 'jwt-simple';
 import passport from 'passport';
 import auth from './lib/auth';
@@ -13,8 +14,14 @@ const callbackURL = process.env.GITHUB_CALLBACK_URL;
 
 const app = express();
 
-app.use(passport.initialize());
 app.use(cookieParser());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3000'
+}));
+
+app.use(passport.initialize());
+
 
 app.all('/api/*', auth);
 
@@ -25,9 +32,6 @@ passport.use(
   new Strategy(
     { clientID, clientSecret, callbackURL },
     function (accessToken, refreshToken, profile, done) {
-
-      // We have the user's information
-      // Store access token
       const provider = 'github';
 
       const {
@@ -62,7 +66,7 @@ passport.use(
 
       User.findOrCreate({ provider_id }, attributes)
         .then((user) => {
-          let tokenAttributes = {
+          const tokenAttributes = {
             value: accessToken,
             user: user.id
           };
@@ -84,18 +88,17 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: process.env.CLIENT_URL }),
   function(req, res) {
-
-    // Issuing a Token
     const token = jwt.encode({
       iss: req.user.id,
       exp: moment().add(1, 'days').calendar()
     }, process.env.APP_SECRET);
 
-    // look to add { secure: true } to this!
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 90000000)
+    });
 
-    // Successful authentication, redirect home.
-    res.redirect(process.env.CLIENT_DASHBOARD_URL + req.user.id);
+    res.redirect(process.env.CLIENT_URL + '/#/auth');
   }
 );
 

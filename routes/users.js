@@ -8,8 +8,7 @@ let privateFields = [
   'updatedAt',
   'token',
   'projects',
-  'inspect',
-  'id'
+  'inspect'
 ];
 
 function removePrivateFields(record) {
