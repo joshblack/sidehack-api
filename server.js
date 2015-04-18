@@ -93,10 +93,7 @@ app.get(
       exp: moment().add(1, 'days').calendar()
     }, process.env.APP_SECRET);
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 90000000)
-    });
+    res.cookie('token', token, { httpOnly: true });
 
     res.redirect(process.env.CLIENT_URL + '/#/auth');
   }

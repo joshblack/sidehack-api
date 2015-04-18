@@ -7,12 +7,15 @@ var Waterline = require('waterline');
 var User = require('./models/User');
 var Token = require('./models/Token');
 var Project = require('./models/Project');
+var Tag = require('./models/Tag');
 var config = require('./config');
 
 var ORM = new Waterline();
+
 ORM.loadCollection(User);
 ORM.loadCollection(Token);
 ORM.loadCollection(Project);
+ORM.loadCollection(Tag);
 
 ORM.initialize(config, function (err, models) {
   if (err) throw err;

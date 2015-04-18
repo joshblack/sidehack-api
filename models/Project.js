@@ -56,7 +56,28 @@ export default Waterline.Collection.extend({
      * @type {Object}
      */
     avatar_url: {
-      type: 'string'
+      type: 'string',
+      required: true
+    },
+
+    /**
+     * The site url for the project
+     *
+     * @type {Object}
+     */
+    site_url: {
+      type: 'string',
+      required: true
+    },
+
+    /**
+     * The github url for the project
+     *
+     * @type {Object}
+     */
+    github_url: {
+      type: 'string',
+      unique: true
     },
 
     /**
@@ -67,6 +88,17 @@ export default Waterline.Collection.extend({
     members: {
       collection: 'user',
       via: 'projects'
+    },
+
+    /**
+     * Many-to-many association between Tags and Projects
+     *
+     * @type {Object}
+     */
+    tags: {
+      collection: 'tag',
+      via: 'projects',
+      dominant: true
     }
   }
 
