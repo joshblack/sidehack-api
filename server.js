@@ -6,6 +6,7 @@ import jwt from 'jwt-simple';
 import passport from 'passport';
 import auth from './lib/auth';
 import moment from 'moment';
+import bodyParser from 'body-parser';
 import { Strategy } from 'passport-github';
 
 const clientID = process.env.GITHUB_CLIENT_ID;
@@ -15,9 +16,11 @@ const callbackURL = process.env.GITHUB_CALLBACK_URL;
 const app = express();
 
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'PUT', 'POST']
 }));
 
 app.use(passport.initialize());

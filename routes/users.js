@@ -7,7 +7,6 @@ let privateFields = [
   'createdAt',
   'updatedAt',
   'token',
-  'projects',
   'inspect'
 ];
 
@@ -53,6 +52,7 @@ router.get('/:id', (req, res) => {
   const { user: User } = req.app.models;
 
   User.findOne({ id: req.params.id })
+    .populate('projects')
     .then((user) => sendResponse(res, 200, { user: removePrivateFields(user) }))
     .catch((err) => {
       sendResponse(res, 400, {

@@ -41,6 +41,15 @@ export default Waterline.Collection.extend({
     },
 
     /**
+     * A short tagline for the project
+     *
+     * @type {Object}
+     */
+    tagline: {
+      type: 'string'
+    },
+
+    /**
      * The project description
      *
      * @type {Object}

@@ -1,5 +1,7 @@
 require('dotenv').load();
-require('babel/register');
+require('babel/register')({
+  stage: 0
+});
 var app = require('./server');
 
 // Database Configuration

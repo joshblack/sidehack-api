@@ -37,7 +37,8 @@ export default Waterline.Collection.extend({
      */
     value: {
       type: 'string',
-      required: true
+      required: true,
+      unique: true
     },
 
     /**
