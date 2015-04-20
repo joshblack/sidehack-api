@@ -13,6 +13,12 @@ router.get('/me', (req, res) => {
   });
 });
 
+router.get('/:query', (req, res) => {
+  res.status(200).json({
+    query: 'YOU MADE A QUERYYYYY'
+  })
+})
+
 router.get('/', (req, res) => {
   res.status(200);
   res.json({

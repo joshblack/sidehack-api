@@ -98,7 +98,7 @@ app.get(
 
     res.cookie('token', token, { httpOnly: true });
 
-    res.redirect(process.env.CLIENT_URL + '/#/auth');
+    res.redirect(process.env.CLIENT_URL + '/#/auth/feed');
   }
 );
 
